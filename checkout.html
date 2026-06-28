@@ -140,7 +140,7 @@
 <script src="cart.js"></script>
 <script src="paytech-integration.js"></script>
 <script>
-  initPaytech('YOUR_API_KEY_HERE', 'f642060474ceb6613c08018ee91d7314bc903471603ba5017f98406583ebcad5');
+  initPaytech('f642060474ceb6613c08018ee91d7314bc903471603ba5017f98406583ebcad5', 'd5e15a77b7e1cb7791bd099c99da29bf2ff03d095090aba2c55035a51860d7aa');
 
   function displayCart() {
     const container = document.getElementById('cart-items-container');
@@ -242,6 +242,9 @@
     document.getElementById('navMobile').classList.remove('open');
   }
 </script>
-
+initPaytech(
+  import.meta.env.VITE_PAYTECH_API_KEY,
+  import.meta.env.VITE_PAYTECH_API_SECRET
+);
 </body>
 </html>

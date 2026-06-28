@@ -6,31 +6,34 @@ class PaytechPayment {
     this.apiKey = apiKey;
     this.secretKey = secretKey;
     this.baseUrl = 'https://paytech.sn/api/payment';
-    this.testMode = true; // Change à false pour la production
+   this.testMode = false; // Production mode activé
   }
 
   async createPaymentRequest(orderData) {
-    try {
-      const paymentData = {
-        item_name: `Commande Ceebu Touba - ${orderData.orderId}`,
-        item_price: orderData.amount,
-        currency: 'XOF',
-        description: `${orderData.items.length} produit(s) - Total: ${orderData.amount} FCFA`,
-        notify_url: `${window.location.origin}/callback.html?action=notify`,
-        cancel_url: `${window.location.origin}/callback.html?action=cancel`,
-        return_url: `${window.location.origin}/callback.html?action=success`,
-        id_user: orderData.customerId,
-        metadata: {
-          orderId: orderData.orderId,
-          customerEmail: orderData.email,
-          customerPhone: orderData.phone,
-          items: orderData.items
-        }
-      };
+  try {
+    const response = await fetch('https://ton-backend.com/api/payment/request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData),
+    });
 
-      if (this.testMode) {
-        return this.simulatePaymentResponse(paymentData);
-      }
+    const result = await response.json();
+
+    if (result.success) {
+      return {
+        success: true,
+        token: result.token,
+        redirectUrl: result.redirectUrl,
+        orderId: orderData.orderId,
+      };
+    } else {
+      throw new Error(result.error);
+    }
+  } catch (error) {
+    console.error('Erreur:', error);
+    return { success: false, error: error.message };
+  }
+
 
       const response = await fetch(`${this.baseUrl}/request-payment`, {
         method: 'POST',
