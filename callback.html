@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation de Paiement — Ceebu Touba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: var(--cream); padding-top: 70px; }
+    .callback-section { min-height: 100vh; padding: 60px 16px; display: flex; align-items: center; justify-content: center; }
+    .callback-container { max-width: 600px; width: 100%; background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+    .callback-header { padding: 60px 40px; text-align: center; background: linear-gradient(135deg, var(--green), var(--green-l)); color: white; }
+    .callback-icon { font-size: 80px; margin-bottom: 20px; animation: popIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+    @keyframes popIn { 0% { transform: scale(0) rotate(-180deg); opacity: 0; } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+    .callback-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; margin-bottom: 10px; }
+    .callback-subtitle { font-size: 14px; opacity: 0.9; margin-bottom: 20px; }
+    .callback-message { font-size: 13px; opacity: 0.85; line-height: 1.6; }
+    .callback-body { padding: 40px; }
+    .order-details { background: var(--cream); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+    .detail-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .detail-row:last-child { margin-bottom: 0; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 12px; font-weight: 700; color: var(--green); }
+    .detail-label { color: var(--muted); }
+    .detail-value { font-weight: 600; color: var(--text); }
+    .items-list { margin-bottom: 24px; }
+    .items-title { font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .item-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid rgba(0,0,0,0.04); font-size: 13px; }
+    .item-row:last-child { border-bottom: none; }
+    .item-info { flex: 1; }
+    .item-name { font-weight: 600; color: var(--text); }
+    .item-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .item-qty { color: var(--muted); min-width: 40px; text-align: center; }
+    .item-price { font-weight: 600; color: var(--green); min-width: 100px; text-align: right; }
+    .next-steps { background: rgba(26,92,46,0.08); border-left: 4px solid var(--green); border-radius: 8px; padding: 16px; margin-bottom: 24px; font-size: 13px; line-height: 1.6; color: var(--text); }
+    .next-steps strong { color: var(--green); display: block; margin-bottom: 8px; }
+    .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .btn-action { padding: 14px 20px; border: none; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-primary-action { background: var(--green); color: white; }
+    .btn-primary-action:hover { background: var(--green-d); transform: translateY(-2px); }
+    .btn-secondary-action { background: transparent; color: var(--green); border: 2px solid var(--green); }
+    .btn-secondary-action:hover { background: rgba(26,92,46,0.1); }
+    .error-header { background: linear-gradient(135deg, var(--red), var(--red-l)); }
+    .error-body { text-align: center; padding: 60px 40px; }
+    .error-message { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+    @media (max-width: 480px) {
+      .callback-header { padding: 40px 24px; }
+      .callback-title { font-size: 1.5rem; }
+      .callback-body { padding: 24px; }
+      .action-buttons { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">CT</div>
+      <div class="logo-text">
+        <span class="logo-main">Ceebu Touba</span>
+        <span class="logo-sub">Riz Premium</span>
+      </div>
+    </a>
+    <nav id="navDesktop">
+      <a href="index.html">Accueil</a>
+      <a href="index.html#produits">Produits</a>
+      <a href="checkout.html" class="btn-nav">Panier</a>
+    </nav>
+  </div>
+</header>
+
+<section class="callback-section">
+  <div class="callback-container">
+    <div id="success-view" style="display: none;">
+      <div class="callback-header">
+        <div class="callback-icon">✓</div>
+        <h1 class="callback-title">Paiement Réussi!</h1>
+        <p class="callback-subtitle">Merci pour votre commande</p>
+        <p class="callback-message" id="success-message"></p>
+      </div>
+      <div class="callback-body">
+        <div class="order-details">
+          <div class="detail-row"><span class="detail-label">Numéro de Commande:</span><span class="detail-value" id="order-id"></span></div>
+          <div class="detail-row"><span class="detail-label">Montant Payé:</span><span class="detail-value" id="order-amount"></span></div>
+          <div class="detail-row"><span class="detail-label">Date:</span><span class="detail-value" id="order-date"></span></div>
+        </div>
+        <div class="items-list" id="items-container"></div>
+        <div class="next-steps">
+          <strong>📬 Prochaines étapes:</strong>
+          ✓ Vous recevrez un email de confirmation<br>
+          ✓ Livraison sous 3-5 jours ouvrables<br>
+          ✓ Un SMS vous avertira à la livraison
+        </div>
+        <div class="action-buttons">
+          <a href="index.html" class="btn-action btn-primary-action">← Retour à l'accueil</a>
+          <a href="checkout.html" class="btn-action btn-secondary-action">Voir mes commandes</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="cancel-view" style="display: none;">
+      <div class="callback-header error-header">
+        <div class="callback-icon">⚠️</div>
+        <h1 class="callback-title">Paiement Annulé</h1>
+        <p class="callback-subtitle">Votre paiement n'a pas été complété</p>
+      </div>
+      <div class="callback-body error-body">
+        <p class="error-message">Vous avez annulé votre paiement. Aucun montant n'a été débité de votre compte.</p>
+        <p class="error-message">Votre panier est toujours disponible. Vous pouvez réessayer à tout moment.</p>
+        <div class="action-buttons" style="margin-top: 30px;">
+          <a href="checkout.html" class="btn-action btn-primary-action">Réessayer le paiement</a>
+          <a href="index.html" class="btn-action btn-secondary-action">Retour aux produits</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="error-view" style="display: none;">
+      <div class="callback-header error-header">
+        <div class="callback-icon">✕</div>
+        <h1 class="callback-title">Erreur de Paiement</h1>
+        <p class="callback-subtitle">Une erreur s'est produite</p>
+      </div>
+      <div class="callback-body error-body">
+        <p class="error-message" id="error-message"></p>
+        <p class="error-message">Si le problème persiste, veuillez contacter notre support.</p>
+        <div class="action-buttons" style="margin-top: 30px;">
+          <a href="checkout.html" class="btn-action btn-primary-action">Retour au Panier</a>
+          <a href="mailto:ceebutoubasn@gmail.com" class="btn-action btn-secondary-action">📧 Contacter le Support</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="paytech-integration.js"></script>
+<script src="cart.js"></script>
+<script>
+  function getParams() {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      action: params.get('action'),
+      token: params.get('token'),
+      orderId: params.get('orderId'),
+      error: params.get('error')
+    };
+  }
+
+  function displaySuccess() {
+    const params = getParams();
+    const token = params.token;
+
+    const testPayments = JSON.parse(localStorage.getItem('test_payments') || '{}');
+    const payment = testPayments[token];
+
+    if (!payment) {
+      displayError('Commande non trouvée');
+      return;
+    }
+
+    const metadata = payment.metadata || {};
+    const amount = payment.item_price || 0;
+    const items = metadata.items || [];
+
+    document.getElementById('success-message').textContent = `Votre commande a été confirmée. Un email de confirmation a été envoyé à ${metadata.customerEmail}`;
+    document.getElementById('order-id').textContent = metadata.orderId || 'N/A';
+    document.getElementById('order-amount').textContent = `${amount.toLocaleString('fr-SN')} FCFA`;
+    document.getElementById('order-date').textContent = new Date().toLocaleDateString('fr-SN');
+
+    const itemsHtml = `
+      <div class="items-title">📦 Articles Commandés</div>
+      ${items.map(item => `
+        <div class="item-row">
+          <div class="item-info">
+            <div class="item-name">${item.name}</div>
+            <div class="item-detail">${item.weight} • Quantité: ${item.quantity}</div>
+          </div>
+          <div class="item-price">${(item.price * item.quantity).toLocaleString('fr-SN')} FCFA</div>
+        </div>
+      `).join('')}
+    `;
+
+    document.getElementById('items-container').innerHTML = itemsHtml;
+
+    cart.clear();
+
+    document.getElementById('success-view').style.display = 'block';
+  }
+
+  function displayCancel() {
+    document.getElementById('cancel-view').style.display = 'block';
+  }
+
+  function displayError(message) {
+    document.getElementById('error-message').textContent = message || 'Une erreur s\'est produite lors du traitement de votre paiement.';
+    document.getElementById('error-view').style.display = 'block';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const params = getParams();
+
+    switch (params.action) {
+      case 'success':
+        displaySuccess();
+        break;
+      case 'cancel':
+        displayCancel();
+        break;
+      case 'notify':
+        console.log('Notification Paytech reçue');
+        displaySuccess();
+        break;
+      default:
+        displayError();
+    }
+  });
+</script>
+
+</body>
+</html>

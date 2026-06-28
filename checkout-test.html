@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Paiement — Ceebu Touba</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { background: linear-gradient(135deg, var(--green-d), var(--green)); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 16px; }
+    .test-container { background: white; border-radius: 20px; padding: 48px; max-width: 600px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .test-header { text-align: center; margin-bottom: 40px; }
+    .test-icon { font-size: 64px; margin-bottom: 16px; }
+    .test-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+    .test-subtitle { color: var(--muted); font-size: 14px; }
+    .payment-info { background: var(--cream); border-radius: 16px; padding: 24px; margin-bottom: 24px; border-left: 4px solid var(--gold); }
+    .payment-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 14px; }
+    .payment-row:last-child { margin-bottom: 0; border-top: 1px solid rgba(0,0,0,0.08); padding-top: 12px; font-size: 1.1rem; font-weight: 700; color: var(--green); }
+    .payment-label { color: var(--muted); }
+    .payment-value { font-weight: 600; color: var(--text); }
+    .test-card { background: #f5f5f5; border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+    .test-card-title { font-weight: 700; color: var(--text); margin-bottom: 12px; font-size: 14px; }
+    .test-card-content { font-size: 13px; color: var(--muted); line-height: 1.7; font-family: 'Courier New', monospace; background: white; padding: 12px; border-radius: 8px; overflow-x: auto; }
+    .buttons-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .btn-test { padding: 14px 20px; border: none; border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-success { background: var(--green); color: white; }
+    .btn-success:hover { background: var(--green-d); transform: translateY(-2px); }
+    .btn-cancel { background: var(--red); color: white; }
+    .btn-cancel:hover { background: var(--red-l); transform: translateY(-2px); }
+    .btn-back { background: transparent; color: var(--green); border: 2px solid var(--green); }
+    .btn-back:hover { background: rgba(26,92,46,0.1); }
+    .info-box { background: rgba(26,92,46,0.08); border: 1px solid rgba(26,92,46,0.2); border-radius: 10px; padding: 16px; font-size: 12px; color: var(--text); line-height: 1.6; }
+    .info-box strong { color: var(--green); }
+    @media (max-width: 480px) {
+      .test-container { padding: 24px; }
+      .test-title { font-size: 1.5rem; }
+      .buttons-group { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="test-container">
+  <div class="test-header">
+    <div class="test-icon">🔐</div>
+    <h1 class="test-title">Formulaire de Test Paytech</h1>
+    <p class="test-subtitle">Mode Test — Pas de vrai paiement</p>
+  </div>
+
+  <div class="payment-info" id="payment-info"></div>
+
+  <div class="test-card">
+    <div class="test-card-title">📋 Numéro de Transaction</div>
+    <div class="test-card-content" id="token-display"></div>
+  </div>
+
+  <div class="test-card">
+    <div class="test-card-title">💳 Informations de Test</div>
+    <div class="test-card-content">
+      <strong>Numéro de carte (Simulation):</strong><br>
+      4111 1111 1111 1111<br><br>
+      <strong>Expiration:</strong> 12/25<br>
+      <strong>CVV:</strong> 123<br><br>
+      ⚠️ Ces données sont fictives pour le test
+    </div>
+  </div>
+
+  <div class="buttons-group">
+    <button class="btn-test btn-success" onclick="confirmPayment()">✓ Paiement Réussi</button>
+    <button class="btn-test btn-cancel" onclick="cancelPayment()">✕ Annuler le Paiement</button>
+  </div>
+
+  <a href="checkout.html" class="btn-test btn-back">← Retour au Panier</a>
+
+  <div class="info-box" style="margin-top: 20px;">
+    <strong>ℹ️ Mode Test Actif</strong><br>
+    Ce formulaire est utilisé pour tester l'intégration Paytech sans effectuer de vrais paiements. En production, vous serez redirigé vers le vrai formulaire de Paytech.
+  </div>
+</div>
+
+<script src="paytech-integration.js"></script>
+<script>
+  function getTokenFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('token');
+  }
+
+  function displayPaymentInfo() {
+    const token = getTokenFromURL();
+    if (!token) {
+      window.location.href = 'checkout.html';
+      return;
+    }
+
+    const testPayments = JSON.parse(localStorage.getItem('test_payments') || '{}');
+    const payment = testPayments[token];
+
+    if (!payment) {
+      alert('Paiement non trouvé!');
+      window.location.href = 'checkout.html';
+      return;
+    }
+
+    const amount = payment.item_price || 0;
+    const customerName = payment.metadata?.customerEmail || 'Client';
+    const itemsCount = payment.metadata?.items?.length || 0;
+
+    document.getElementById('payment-info').innerHTML = `
+      <div class="payment-row"><span class="payment-label">Client:</span><span class="payment-value">${customerName}</span></div>
+      <div class="payment-row"><span class="payment-label">Articles:</span><span class="payment-value">${itemsCount} article(s)</span></div>
+      <div class="payment-row"><span class="payment-label">Description:</span><span class="payment-value" style="font-size: 12px;">${payment.description}</span></div>
+      <div class="payment-row"><span class="payment-label">Montant:</span><span class="payment-value">${amount.toLocaleString('fr-SN')} FCFA</span></div>
+    `;
+
+    document.getElementById('token-display').textContent = token;
+  }
+
+  function confirmPayment() {
+    const token = getTokenFromURL();
+    const testPayments = JSON.parse(localStorage.getItem('test_payments') || '{}');
+    
+    if (testPayments[token]) {
+      testPayments[token].status = 'success';
+      testPayments[token].completedAt = new Date().toISOString();
+      localStorage.setItem('test_payments', JSON.stringify(testPayments));
+      window.location.href = `callback.html?action=success&token=${token}`;
+    }
+  }
+
+  function cancelPayment() {
+    const token = getTokenFromURL();
+    const testPayments = JSON.parse(localStorage.getItem('test_payments') || '{}');
+    
+    if (testPayments[token]) {
+      testPayments[token].status = 'cancelled';
+      localStorage.setItem('test_payments', JSON.stringify(testPayments));
+      window.location.href = `callback.html?action=cancel&token=${token}`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', displayPaymentInfo);
+</script>
+
+</body>
+</html>

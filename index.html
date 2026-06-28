@@ -12,7 +12,7 @@
 
 <header id="header">
   <div class="header-inner">
-    <a href="#" class="logo">
+    <a href="index.html" class="logo">
       <div class="logo-icon">CT</div>
       <div class="logo-text">
         <span class="logo-main">Ceebu Touba</span>
@@ -25,7 +25,7 @@
       <a href="#pourquoi">Qualité</a>
       <a href="#galerie">Galerie</a>
       <a href="#about">Partenaires</a>
-      <a href="#contact" class="btn-nav">Contact</a>
+      <a href="checkout.html" class="btn-nav">🛒 Panier</a>
       <button class="theme-toggle" onclick="toggleTheme()"><span class="theme-icon-light">☀️</span><span class="theme-icon-dark">🌙</span></button>
     </nav>
     <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
@@ -36,7 +36,7 @@
     <a href="#pourquoi" onclick="closeMenu()">Qualité</a>
     <a href="#galerie" onclick="closeMenu()">Galerie</a>
     <a href="#about" onclick="closeMenu()">Partenaires</a>
-    <a href="#contact" onclick="closeMenu()">Contact</a>
+    <a href="checkout.html" onclick="closeMenu()">🛒 Panier</a>
   </nav>
 </header>
 
@@ -91,8 +91,8 @@
     <div class="about-text-col">
       <div>
         <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;color:var(--green)">Nos Partenaires</span>
-        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:700;line-height:1.2;color:var(--text);margin-top:8px">Disponible chez nos <em style="color:var(--gold);font-style:normal">points de vente</em></h2>
-        <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-top:10px"><strong style="color:var(--green)">SGF</strong> est partenaire exclusif de Ceebu Touba. Retrouvez notre riz dans toutes les stations SGF du Sénégal et dans notre boutique exclusive à Touba.</p>
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,2.5vw,2.2rem);font-weight:700;line-height:1.2;color:var(--text);margin-top:8px">Disponible chez nos <em style="color:var(--gold)">partenaires</em></h2>
+        <p style="font-size:14px;color:var(--muted);line-height:1.7;margin-top:10px"><strong style="color:var(--green)">SGF</strong> est partenaire exclusif de Ceebu Touba. Retrouvez notre riz dans tous les magasins partenaires du Sénégal.</p>
       </div>
       <div class="partner-slider-wrap">
         <div class="partner-slider" id="partnerSlider">
@@ -114,7 +114,7 @@
           </div>
           <div class="partner-card" onclick="showPartner(this)">
             <img src="images/boutique-exclusive.jpg" alt="Boutique exclusive" loading="lazy">
-            <div class="partner-info"><div class="partner-tag" style="background:var(--gold);color:var(--green-d)">⭐ Exclusif</div><div class="partner-name">Gare Bou Ndaw — Baye Serigne</div><div class="partner-num">📞 +221 77 591 35 40</div></div>
+            <div class="partner-info"><div class="partner-tag" style="background:var(--gold);color:var(--green-d)">⭐ Exclusif</div><div class="partner-name">Gare Bou Ndaw — Baye Serigne</div><div class="partner-num">📞 +221 77 805 55 50</div></div>
           </div>
         </div>
         <button class="partner-prev" onclick="scrollPartner(-1)">‹</button>
@@ -124,7 +124,7 @@
         <span id="popTag" class="partner-tag"></span>
         <div id="popName" style="font-weight:700;font-size:16px;color:var(--text);margin:6px 0 2px"></div>
         <div id="popNum" style="font-size:14px;color:var(--muted)"></div>
-        <button onclick="document.getElementById('partnerPopup').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--muted)">✕</button>
+        <button onclick="document.getElementById('partnerPopup').style.display='none'" style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--text)">✕</button>
       </div>
       <a href="#magasins" class="btn-primary" style="display:inline-flex;align-self:flex-start">Voir tous nos magasins →</a>
     </div>
@@ -208,7 +208,7 @@
             <span id="qty-touba">1</span>
             <button class="qty-btn" onclick="changeQty(1,'touba')">+</button>
           </div>
-          <button class="btn-commander" onclick="alert('Commande reçue !')">🛒 Ajouter au panier</button>
+          <button class="btn-commander" onclick="addToCart('touba')">🛒 Ajouter au panier</button>
         </div>
         <div class="divider"></div>
         <div class="product-feats">
@@ -261,7 +261,7 @@
             <span id="qty-walo">1</span>
             <button class="qty-btn" onclick="changeQty(1,'walo')">+</button>
           </div>
-          <button class="btn-commander" style="background:var(--gold);color:var(--green-d)" onclick="alert('Commande reçue !')">🛒 Ajouter au panier</button>
+          <button class="btn-commander" style="background:var(--gold);color:var(--green-d)" onclick="addToCart('walo')">🛒 Ajouter au panier</button>
         </div>
         <div class="divider"></div>
         <div class="product-feats">
@@ -288,16 +288,16 @@
     </div>
     <div class="plats-grid">
       <div class="plat-card reveal" onclick="openPlat(0)">
-        <div class="plat-img-wrap"><img src="images/thieboudienne.png" alt="Thiéboudienne" loading="lazy"><div class="plat-overlay"><span class="plat-voir">Voir la recette →</span></div><div class="plat-tag">Plat national</div></div>
-        <div class="plat-body"><div class="plat-icon">🐟</div><h3 class="plat-title">Thiéboudienne</h3><p class="plat-desc">Le plat national. Riz en sauce tomate, poisson grillé et légumes.</p><div class="plat-footer"><span class="plat-info">⏱ 1h30</span><span class="plat-info">👥 4-6 pers.</span><span class="plat-niveau facile">Facile</span></div></div>
+        <div class="plat-img-wrap"><img src="images/thieboudienne.png" alt="Thiéboudienne" loading="lazy"><div class="plat-overlay"><span class="plat-voir">Voir la recette →</span></div><div class="plat-tag">Recette</div></div>
+        <div class="plat-body"><div class="plat-icon">🐟</div><h3 class="plat-title">Thiéboudienne</h3><p class="plat-desc">Le plat national. Riz en sauce tomate, poisson grillé et légumes.</p></div>
       </div>
       <div class="plat-card reveal reveal-delay-1" onclick="openPlat(1)">
-        <div class="plat-img-wrap"><img src="images/yassa.png" alt="Yassa" loading="lazy"><div class="plat-overlay"><span class="plat-voir">Voir la recette →</span></div><div class="plat-tag" style="background:var(--gold);color:var(--green-d)">Favori</div></div>
-        <div class="plat-body"><div class="plat-icon">🍋</div><h3 class="plat-title">Riz au Yassa</h3><p class="plat-desc">Poulet mariné au citron et oignons caramélisés sur riz parfumé.</p><div class="plat-footer"><span class="plat-info">⏱ 2h00</span><span class="plat-info">👥 4-6 pers.</span><span class="plat-niveau moyen">Moyen</span></div></div>
+        <div class="plat-img-wrap"><img src="images/yassa.png" alt="Yassa" loading="lazy"><div class="plat-overlay"><span class="plat-voir">Voir la recette →</span></div><div class="plat-tag" style="background:var(--gold);color:var(--green-d)">Populaire</div></div>
+        <div class="plat-body"><div class="plat-icon">🍋</div><h3 class="plat-title">Riz au Yassa</h3><p class="plat-desc">Poulet mariné au citron et oignons caramélisés sur riz parfumé.</p></div>
       </div>
       <div class="plat-card reveal reveal-delay-2" onclick="openPlat(2)">
-        <div class="plat-img-wrap"><img src="images/thiebouguinar.png" alt="Thiébou Guinar" loading="lazy"><div class="plat-overlay"><span class="plat-voir">Voir la recette →</span></div><div class="plat-tag" style="background:var(--red)">Spécial</div></div>
-        <div class="plat-body"><div class="plat-icon">🍗</div><h3 class="plat-title">Thiébou Guinar</h3><p class="plat-desc">Riz au poulet parfumé aux épices sénégalaises.</p><div class="plat-footer"><span class="plat-info">⏱ 1h45</span><span class="plat-info">👥 4-6 pers.</span><span class="plat-niveau facile">Facile</span></div></div>
+        <div class="plat-img-wrap"><img src="images/thiebouguinar.png" alt="Thiébou Guinar" loading="lazy"><div class="plat-overlay"><span class="plat-voir">Voir la recette →</span></div><div class="plat-tag">Recette</div></div>
+        <div class="plat-body"><div class="plat-icon">🍗</div><h3 class="plat-title">Thiébou Guinar</h3><p class="plat-desc">Riz au poulet parfumé aux épices sénégalaises.</p></div>
       </div>
     </div>
     <div class="plats-cta reveal">
@@ -328,10 +328,10 @@
     <h2 class="section-title">La qualité au cœur de <em>chaque grain</em></h2>
     <div class="pourquoi-grid">
       <div class="pourquoi-list">
-        <div class="pourquoi-item reveal"><div class="pourquoi-icon">🌿</div><div><div class="pourquoi-item-title">100% Qualité Contrôlée</div><div class="pourquoi-item-desc">Chaque lot analysé avant mise en vente.</div></div></div>
-        <div class="pourquoi-item reveal reveal-delay-1"><div class="pourquoi-icon">👐</div><div><div class="pourquoi-item-title">Riz Soigneusement Trié</div><div class="pourquoi-item-desc">Tri manuel garantissant l'absence de grains cassés.</div></div></div>
-        <div class="pourquoi-item reveal reveal-delay-2"><div class="pourquoi-icon">📦</div><div><div class="pourquoi-item-title">Conservation Optimale</div><div class="pourquoi-item-desc">Emballage contrôlé pour préserver la fraîcheur.</div></div></div>
-        <div class="pourquoi-item reveal reveal-delay-3"><div class="pourquoi-icon">💚</div><div><div class="pourquoi-item-title">Satisfaction Garantie</div><div class="pourquoi-item-desc">Service client disponible 6j/7.</div></div></div>
+        <div class="pourquoi-item reveal"><div class="pourquoi-icon">🌿</div><div><div class="pourquoi-item-title">100% Qualité Contrôlée</div><div class="pourquoi-item-desc">Chaque lot analysé dans nos laboratoires.</div></div></div>
+        <div class="pourquoi-item reveal reveal-delay-1"><div class="pourquoi-icon">👐</div><div><div class="pourquoi-item-title">Riz Soigneusement Trié</div><div class="pourquoi-item-desc">Tri optique haute précision — zéro grain cassé.</div></div></div>
+        <div class="pourquoi-item reveal reveal-delay-2"><div class="pourquoi-icon">📦</div><div><div class="pourquoi-item-title">Conservation Optimale</div><div class="pourquoi-item-desc">Emballage hermétique pour préserver la fraîcheur.</div></div></div>
+        <div class="pourquoi-item reveal reveal-delay-3"><div class="pourquoi-icon">💚</div><div><div class="pourquoi-item-title">Satisfaction Garantie</div><div class="pourquoi-item-desc">Service client réactif 24h/24, 7j/7.</div></div></div>
       </div>
       <div class="stats-grid">
         <div class="stat-card reveal"><div class="stat-num"><span class="counter" data-target="5000">0</span><span class="stat-unit">+</span></div><div class="stat-label">Clients Satisfaits</div></div>
@@ -359,15 +359,15 @@
       <button class="galerie-filtre" onclick="filtreGalerie(this,'equipe')">👥 Équipe</button>
     </div>
     <div class="galerie-grid-new">
-      <div class="gal-item grande culture" onclick="openGalerie(0)"><img src="images/g-semence.png" alt="Semence" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 1</div><div class="gal-label">🌱 Culture & Semence</div><div class="gal-desc">Terres fertiles de Touba</div></div></div>
-      <div class="gal-item culture" onclick="openGalerie(1)"><img src="images/g-recolte.png" alt="Récolte" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 2</div><div class="gal-label">🚜 Récolte</div><div class="gal-desc">Moissonné à maturité optimale</div></div></div>
-      <div class="gal-item production" onclick="openGalerie(2)"><img src="images/g-usine.png" alt="Usine" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 3</div><div class="gal-label">🏭 Notre Usine</div><div class="gal-desc">Équipements de dernière génération</div></div></div>
-      <div class="gal-item grande production" onclick="openGalerie(3)"><img src="images/g-tri-machine.png" alt="Tri optique" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 4</div><div class="gal-label">⚙️ Tri Optique</div><div class="gal-desc">Chaque grain analysé à haute précision</div></div></div>
-      <div class="gal-item production" onclick="openGalerie(4)"><img src="images/g-trieuse.png" alt="Trieuse" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 5</div><div class="gal-label">🔧 Équipement</div><div class="gal-desc">Machines de calibrage</div></div></div>
-      <div class="gal-item production" onclick="openGalerie(5)"><img src="images/g-qualite.png" alt="Qualité" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 6</div><div class="gal-label">👐 Contrôle Qualité</div><div class="gal-desc">Inspection avant conditionnement</div></div></div>
-      <div class="gal-item stock" onclick="openGalerie(6)"><img src="images/g-stock-brut.png" alt="Stock" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 7</div><div class="gal-label">🏪 Stockage</div><div class="gal-desc">Conservation optimale</div></div></div>
-      <div class="gal-item grande stock" onclick="openGalerie(7)"><img src="images/g-stock-fini.png" alt="Conditionnement" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 8</div><div class="gal-label">📦 Conditionnement</div><div class="gal-desc">Sacs prêts pour la livraison</div></div></div>
-      <div class="gal-item equipe" onclick="openGalerie(8)"><img src="images/g-equipe.png" alt="Équipe" loading="lazy"><div class="gal-overlay"><div class="gal-step">Notre Force</div><div class="gal-label">👥 Notre Équipe</div><div class="gal-desc">Passionnés en uniforme Ceebu Touba</div></div></div>
+      <div class="gal-item grande culture" onclick="openGalerie(0)"><img src="images/g-semence.png" alt="Semence" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 1</div><div class="gal-title">Semence</div></div></div>
+      <div class="gal-item culture" onclick="openGalerie(1)"><img src="images/g-recolte.png" alt="Récolte" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 2</div><div class="gal-title">Récolte</div></div></div>
+      <div class="gal-item production" onclick="openGalerie(2)"><img src="images/g-usine.png" alt="Usine" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 3</div><div class="gal-title">Usine</div></div></div>
+      <div class="gal-item grande production" onclick="openGalerie(3)"><img src="images/g-tri-machine.png" alt="Tri optique" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 4</div><div class="gal-title">Tri Optique</div></div></div>
+      <div class="gal-item production" onclick="openGalerie(4)"><img src="images/g-trieuse.png" alt="Trieuse" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 5</div><div class="gal-title">Trieuse</div></div></div>
+      <div class="gal-item production" onclick="openGalerie(5)"><img src="images/g-qualite.png" alt="Qualité" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 6</div><div class="gal-title">Contrôle Qualité</div></div></div>
+      <div class="gal-item stock" onclick="openGalerie(6)"><img src="images/g-stock-brut.png" alt="Stock" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 7</div><div class="gal-title">Stock</div></div></div>
+      <div class="gal-item grande stock" onclick="openGalerie(7)"><img src="images/g-stock-fini.png" alt="Conditionnement" loading="lazy"><div class="gal-overlay"><div class="gal-step">Étape 8</div><div class="gal-title">Conditionnement</div></div></div>
+      <div class="gal-item equipe" onclick="openGalerie(8)"><img src="images/g-equipe.png" alt="Équipe" loading="lazy"><div class="gal-overlay"><div class="gal-step">Notre Force</div><div class="gal-title">Équipe</div></div></div>
     </div>
   </div>
 </section>
@@ -390,9 +390,9 @@
       <h2 class="section-title" style="color:white">Ce que disent <em style="color:var(--gold)">nos clients</em></h2>
     </div>
     <div class="temoignages-grid">
-      <div class="temoignage-card reveal"><div class="temoignage-quote">"</div><p class="temoignage-text">Le meilleur riz pour mon thiéboudienne. Les grains sont parfaits, toute ma famille en redemande !</p><div class="temoignage-stars">★★★★★</div><div class="temoignage-author"><div class="temoignage-avatar">F</div><div><div class="temoignage-name">Fatou Diallo</div><div class="temoignage-loc">Dakar, Sénégal</div></div></div></div>
-      <div class="temoignage-card reveal reveal-delay-1"><div class="temoignage-quote">"</div><p class="temoignage-text">Je commande depuis 2 ans. Qualité constante, livraison rapide, service client au top !</p><div class="temoignage-stars">★★★★★</div><div class="temoignage-author"><div class="temoignage-avatar" style="background:var(--red)">M</div><div><div class="temoignage-name">Mamadou Sow</div><div class="temoignage-loc">Thiès, Sénégal</div></div></div></div>
-      <div class="temoignage-card reveal reveal-delay-2"><div class="temoignage-quote">"</div><p class="temoignage-text">En tant que restauratrice, Ceebu Touba répond à toutes mes exigences.</p><div class="temoignage-stars">★★★★★</div><div class="temoignage-author"><div class="temoignage-avatar" style="background:var(--gold);color:var(--green-d)">A</div><div><div class="temoignage-name">Aminata Cissé</div><div class="temoignage-loc">Saint-Louis, Sénégal</div></div></div></div>
+      <div class="temoignage-card reveal"><div class="temoignage-quote">"</div><p class="temoignage-text">Le meilleur riz pour mon thiéboudienne. Les grains sont parfaits, toute ma famille en redemande!</p><div class="temoignage-author">— Fatou M., Dakar</div></div>
+      <div class="temoignage-card reveal reveal-delay-1"><div class="temoignage-quote">"</div><p class="temoignage-text">Je commande depuis 2 ans. Qualité constante, livraison rapide, service client impeccable.</p><div class="temoignage-author">— Mamadou D., Pikine</div></div>
+      <div class="temoignage-card reveal reveal-delay-2"><div class="temoignage-quote">"</div><p class="temoignage-text">En tant que restauratrice, Ceebu Touba répond à toutes mes exigences. Mes clients adorent!</p><div class="temoignage-author">— Aïssatou B., Restauratrice</div></div>
     </div>
   </div>
 </section>
@@ -407,12 +407,12 @@
     </div>
     <div class="contact-new-grid">
       <div style="display:flex;flex-direction:column;gap:14px">
-        <a href="mailto:ceebutoubasn@gmail.com" class="contact-info-card"><div class="cic-icon" style="background:rgba(212,160,23,.15);color:var(--gold)">✉️</div><div><div class="cic-label">Email</div><div class="cic-value">ceebutoubasn@gmail.com</div></div><div class="cic-arrow">→</div></a>
-        <a href="tel:+221777064848" class="contact-info-card"><div class="cic-icon" style="background:rgba(45,138,71,.15);color:#4dba6e">📞</div><div><div class="cic-label">Téléphone 1</div><div class="cic-value">+221 77 706 48 48</div></div><div class="cic-arrow">→</div></a>
-        <a href="tel:+221778552550" class="contact-info-card"><div class="cic-icon" style="background:rgba(45,138,71,.15);color:#4dba6e">📱</div><div><div class="cic-label">Téléphone 2</div><div class="cic-value">+221 77 855 25 50</div></div><div class="cic-arrow">→</div></a>
-        <div class="contact-info-card" style="cursor:default"><div class="cic-icon" style="background:rgba(192,57,43,.15);color:var(--red)">📍</div><div><div class="cic-label">Adresse</div><div class="cic-value">Touba, Région de Diourbel — Sénégal</div></div></div>
+        <a href="mailto:ceebutoubasn@gmail.com" class="contact-info-card"><div class="cic-icon" style="background:rgba(212,160,23,.15);color:var(--gold)">✉️</div><div><div class="cic-label">Email</div><div class="cic-val">ceebutoubasn@gmail.com</div></div></a>
+        <a href="tel:+221777064848" class="contact-info-card"><div class="cic-icon" style="background:rgba(45,138,71,.15);color:#4dba6e">📞</div><div><div class="cic-label">Téléphone 1</div><div class="cic-val">+221 77 706 48 48</div></div></a>
+        <a href="tel:+221778552550" class="contact-info-card"><div class="cic-icon" style="background:rgba(45,138,71,.15);color:#4dba6e">📱</div><div><div class="cic-label">Téléphone 2</div><div class="cic-val">+221 77 855 25 50</div></div></a>
+        <div class="contact-info-card" style="cursor:default"><div class="cic-icon" style="background:rgba(192,57,43,.15);color:var(--red)">📍</div><div><div class="cic-label">Adresse</div><div class="cic-val">Touba, Région de Diourbel, Sénégal</div></div></div>
         <a href="https://wa.me/221778552550?text=Bonjour%2C%20je%20voudrais%20commander%20du%20riz%20Ceebu%20Touba%20%F0%9F%8C%BE" target="_blank" class="contact-wa-btn">
-          <svg viewBox="0 0 32 32" width="20" height="20" fill="white" style="flex-shrink:0"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.738 5.476 2.03 7.773L0 32l8.42-2.21A15.9 15.9 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.09c-2.51 0-4.85-.7-6.85-1.92l-.49-.29-5.05 1.32 1.35-4.93-.32-.51A13.07 13.07 0 0 1 2.91 16C2.91 8.78 8.78 2.91 16 2.91S29.09 8.78 29.09 16 23.22 29.09 16 29.09z"/><path d="M23.2 19.27c-.39-.2-2.32-1.15-2.68-1.28-.36-.13-.62-.2-.89.2-.26.39-1.01 1.28-1.24 1.54-.23.26-.46.29-.85.1-.39-.2-1.64-.6-3.13-1.93-1.16-1.03-1.94-2.31-2.17-2.7-.23-.39-.02-.6.17-.8.18-.18.39-.46.59-.69.2-.23.26-.39.39-.66.13-.26.07-.49-.03-.69-.1-.2-.89-2.15-1.22-2.94-.32-.78-.65-.67-.89-.68-.23-.01-.49-.01-.75-.01-.26 0-.69.1-1.05.49-.36.39-1.37 1.34-1.37 3.27 0 1.93 1.4 3.79 1.6 4.05.2.26 2.76 4.22 6.69 5.91.93.4 1.66.64 2.23.82.94.3 1.79.26 2.46.16.75-.11 2.32-.95 2.65-1.86.33-.92.33-1.71.23-1.87-.1-.16-.36-.26-.75-.46z"/></svg>
+          <svg viewBox="0 0 32 32" width="20" height="20" fill="white" style="flex-shrink:0"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.738 5.476 2.03 7.773L0 32l8.42-2.21A15.9 15.9 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm7.595 23.409l-.96 2.382c-1.494 2.256-3.852 2.945-6.35 1.256-6.147-4.215-10.068-11.077-10.068-11.077-1.689-2.498-.998-4.856 1.256-6.35l1.474-.96c.436-.273 1.06-.093 1.237.382l1.869 5.076c.163.436.005.98-.37 1.239l-1.342.923c-.436.273-.3 1.163.817 2.716 1.117 1.553 2.446 2.334 2.882 2.61l.923 1.341c.257.381.797.54 1.233.379l5.075-1.868c.476-.174.655-.801.381-1.236l-.96-1.475c-1.689-2.498-.998-4.856 1.256-6.35 6.147-4.216 11.077-10.068 11.077-10.068 1.689 2.498.998 4.856-1.256 6.35"/></svg>
           Commander via WhatsApp
         </a>
       </div>
@@ -437,7 +437,7 @@
   <div class="footer-inner">
     <div class="footer-grid">
       <div>
-        <a href="#" class="logo" style="margin-bottom:16px;display:inline-flex">
+        <a href="index.html" class="logo" style="margin-bottom:16px;display:inline-flex">
           <div class="logo-icon">CT</div>
           <div class="logo-text"><span class="logo-main" style="color:var(--gold)">Ceebu Touba</span><span class="logo-sub" style="color:rgba(255,255,255,.5)">Riz Premium</span></div>
         </a>
@@ -461,10 +461,10 @@
       <div>
         <div class="footer-col-title">Produits</div>
         <ul class="footer-links">
-          <li><a href="#">Riz Long 5kg</a></li>
-          <li><a href="#">Riz Long 10kg</a></li>
-          <li><a href="#">Riz Long 25kg</a></li>
-          <li><a href="#">Riz Brisé 25kg</a></li>
+          <li><a href="#produits">Riz Long 5kg</a></li>
+          <li><a href="#produits">Riz Long 10kg</a></li>
+          <li><a href="#produits">Riz Long 25kg</a></li>
+          <li><a href="#produits">Riz Brisé 25kg</a></li>
         </ul>
       </div>
       <div>
@@ -483,10 +483,12 @@
 
 <!-- WHATSAPP -->
 <a href="https://wa.me/221778552550?text=Bonjour%2C%20je%20voudrais%20commander%20du%20riz%20Ceebu%20Touba%20%F0%9F%8C%BE" target="_blank" rel="noopener" class="whatsapp-float">
-  <svg viewBox="0 0 32 32" width="28" height="28" fill="white"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.738 5.476 2.03 7.773L0 32l8.42-2.21A15.9 15.9 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm0 29.09c-2.51 0-4.85-.7-6.85-1.92l-.49-.29-5.05 1.32 1.35-4.93-.32-.51A13.07 13.07 0 0 1 2.91 16C2.91 8.78 8.78 2.91 16 2.91S29.09 8.78 29.09 16 23.22 29.09 16 29.09z"/><path d="M23.2 19.27c-.39-.2-2.32-1.15-2.68-1.28-.36-.13-.62-.2-.89.2-.26.39-1.01 1.28-1.24 1.54-.23.26-.46.29-.85.1-.39-.2-1.64-.6-3.13-1.93-1.16-1.03-1.94-2.31-2.17-2.7-.23-.39-.02-.6.17-.8.18-.18.39-.46.59-.69.2-.23.26-.39.39-.66.13-.26.07-.49-.03-.69-.1-.2-.89-2.15-1.22-2.94-.32-.78-.65-.67-.89-.68-.23-.01-.49-.01-.75-.01-.26 0-.69.1-1.05.49-.36.39-1.37 1.34-1.37 3.27 0 1.93 1.4 3.79 1.6 4.05.2.26 2.76 4.22 6.69 5.91.93.4 1.66.64 2.23.82.94.3 1.79.26 2.46.16.75-.11 2.32-.95 2.65-1.86.33-.92.33-1.71.23-1.87-.1-.16-.36-.26-.75-.46z"/></svg>
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="white"><path d="M16 0C7.163 0 0 7.163 0 16c0 2.825.738 5.476 2.03 7.773L0 32l8.42-2.21A15.9 15.9 0 0 0 16 32c8.837 0 16-7.163 16-16S24.837 0 16 0zm7.595 23.409l-.96 2.382c-1.494 2.256-3.852 2.945-6.35 1.256-6.147-4.215-10.068-11.077-10.068-11.077-1.689-2.498-.998-4.856 1.256-6.35l1.474-.96c.436-.273 1.06-.093 1.237.382l1.869 5.076c.163.436.005.98-.37 1.239l-1.342.923c-.436.273-.3 1.163.817 2.716 1.117 1.553 2.446 2.334 2.882 2.61l.923 1.341c.257.381.797.54 1.233.379l5.075-1.868c.476-.174.655-.801.381-1.236l-.96-1.475c-1.689-2.498-.998-4.856 1.256-6.35 6.147-4.216 11.077-10.068 11.077-10.068 1.689 2.498.998 4.856-1.256 6.35"/></svg>
   <span class="whatsapp-tooltip">Discutez avec nous</span>
 </a>
 
+<script src="cart.js"></script>
+<script src="paytech-integration.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
