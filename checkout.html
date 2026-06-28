@@ -30,7 +30,7 @@
     .form-group input, .form-group textarea { border: 1px solid rgba(0,0,0,0.12); border-radius: 10px; padding: 12px 14px; font-family: inherit; font-size: 14px; transition: border-color 0.2s; }
     .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(26,92,46,0.1); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .checkout-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--green); color: white; padding: 16px 32px; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s; width: 100%; margin-top: 20px; }
+    .checkout-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--green); color: white; padding: 16px 32px; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; font-size: 15px; transition: all 0.2s; }
     .checkout-btn:hover { background: var(--green-d); transform: translateY(-2px); }
     .checkout-btn:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
     .empty-cart { text-align: center; padding: 60px 20px; color: var(--muted); }
@@ -140,14 +140,18 @@
 <script src="cart.js"></script>
 <script src="paytech-integration.js"></script>
 <script>
-  initPaytech('f642060474ceb6613c08018ee91d7314bc903471603ba5017f98406583ebcad5', 'd5e15a77b7e1cb7791bd099c99da29bf2ff03d095090aba2c55035a51860d7aa');
+  // Initialiser PayTech avec les clés API
+  initPaytech(
+    'f642060474ceb6613c08018ee91d7314bc903471603ba5017f98406583ebcad5',
+    'd5e15a77b7e1cb7791bd099c99da29bf2ff03d095090aba2c55035a51860d7aa'
+  );
 
   function displayCart() {
     const container = document.getElementById('cart-items-container');
     const items = cart.getItems();
 
     if (items.length === 0) {
-      container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div class="empty-cart-text">Votre panier est vide</div><a href="index.html#produits" class="back-btn">← Découvrir nos produits</a></div>`;
+      container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div class="empty-cart-text">Votre panier est vide</div><a href="index.html#produits" class="back-btn">← Ajouter des produits</a></div>`;
       document.getElementById('submit-btn').disabled = true;
       updateSummary();
       return;
@@ -242,9 +246,5 @@
     document.getElementById('navMobile').classList.remove('open');
   }
 </script>
-initPaytech(
-  import.meta.env.VITE_PAYTECH_API_KEY,
-  import.meta.env.VITE_PAYTECH_API_SECRET
-);
 </body>
 </html>

@@ -100,7 +100,7 @@ function addToCart(productId) {
       price: parseInt(
         document.querySelector(`#prix-${productType}`)?.textContent.match(/\d+/)?.[0] || '12500'
       ),
-      quantity: parseInt(document.querySelector(`#qty-${productType}`)?.textContent) || 1,
+      quantity: (window.qtys && window.qtys[productType]) || 1,
       image: 'images/result.png'
     },
     walo: {
@@ -110,7 +110,7 @@ function addToCart(productId) {
       price: parseInt(
         document.querySelector(`#prix-${productType}`)?.textContent.match(/\d+/)?.[0] || '10500'
       ),
-      quantity: parseInt(document.querySelector(`#qty-${productType}`)?.textContent) || 1,
+      quantity: (window.qtys && window.qtys[productType]) || 1,
       image: 'images/result (1).png'
     }
   };
