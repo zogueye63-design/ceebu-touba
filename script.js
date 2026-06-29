@@ -68,13 +68,13 @@ function changeQty(d,p) {
 function selectWeightTouba(btn) {
   btn.closest('.weights-row').querySelectorAll('.weight-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const p = {'5 kg':'2 700','10 kg':'5 200','25 kg':'12 500','50 kg':'24 000'};
+  const p = {'5 kg':'3 500','10 kg':'7 000','25 kg':'9 500','50 kg':'19 000'};
   document.getElementById('prix-touba').innerHTML = p[btn.textContent.trim()]+' <span>FCFA</span>';
 }
 function selectWeightWalo(btn) {
   btn.closest('.weights-row').querySelectorAll('.weight-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  const p = {'5 kg':'2 200','10 kg':'4 200','25 kg':'10 500','50 kg':'20 000'};
+  const p = {'5 kg':'3 200','10 kg':'6 500','25 kg':'9 000','50 kg':'18 000'};
   document.getElementById('prix-walo').innerHTML = p[btn.textContent.trim()]+' <span>FCFA</span>';
 }
 
@@ -112,9 +112,9 @@ document.querySelectorAll('.atout-card,.plat-card').forEach(card => {
 
 /* Plats modal */
 const plats=[
-  {img:'images/thieboudienne.png',icon:'🐟',title:'Thiéboudienne',desc:'Le plat national. Riz en sauce tomate, poisson grillé et légumes.',steps:['Faire revenir le poisson assaisonné','Préparer la sauce tomate avec épices','Ajouter légumes, cuire 20 min','Incorporer le riz, absorber le bouillon','Servir avec le poisson']},
-  {img:'images/yassa.png',icon:'🍋',title:'Riz au Yassa',desc:'Poulet mariné au citron et oignons sur riz parfumé.',steps:['Mariner poulet au citron une nuit','Griller jusqu\'à dorure','Caraméliser les oignons','Mijoter 30 min','Servir sur riz Ceebu Touba']},
-  {img:'images/thiebouguinar.png',icon:'🍗',title:'Thiébou Guinar',desc:'Riz au poulet parfumé aux épices sénégalaises.',steps:['Farcir poulet aux épices locales','Dorer dans l\'huile','Préparer bouillon tomates-oignons','Cuire riz dans le bouillon','Dresser avec poulet et légumes']}
+  {img:'images/thieboudienne.png',icon:'🐟',title:'Thiéboudienne',desc:'Le plat national. Riz en sauce tomate, poisson grillé et légumes.',steps:['Faire revenir le poisson assaisonné','Pré-cuire le riz','Ajouter sauce tomate et épices','Cuire 25 minutes à couvert','Servir chaud avec les légumes']},
+  {img:'images/yassa.png',icon:'🍋',title:'Riz au Yassa',desc:'Poulet mariné au citron et oignons sur riz parfumé.',steps:['Mariner poulet au citron une nuit','Griller jusqu\'à dorure','Caraméliser les oignons','Mijoter dans la sauce','Servir sur riz moelleux']},
+  {img:'images/thiebouguinar.png',icon:'🍗',title:'Thiébou Guinar',desc:'Riz au poulet parfumé aux épices sénégalaises.',steps:['Farcir poulet aux épices locales','Dorer dans l\'huile','Préparer le riz','Mijoter 45 minutes','Présenter farci sur le riz']}
 ];
 function openPlat(i){
   const p=plats[i];
