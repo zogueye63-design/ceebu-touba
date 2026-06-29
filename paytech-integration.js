@@ -6,34 +6,34 @@ class PaytechPayment {
     this.apiKey = apiKey;
     this.secretKey = secretKey;
     this.baseUrl = 'https://paytech.sn/api/payment';
-    this.testMode = true; // Mode TEST pour développement
+   this.testMode = false; // Production mode activé
   }
 
   async createPaymentRequest(orderData) {
-    try {
-      // En mode TEST, on simule la réponse
-      if (this.testMode) {
-        return this.simulatePaymentResponse(orderData);
-      }
+  try {
+    const response = await fetch('https://ton-backend.com/api/payment/request', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderData),
+    });
 
-      // En mode PRODUCTION, appel à PayTech
-      const paymentData = {
-        api_key: this.apiKey,
-        api_secret: this.secretKey,
-        merchant_id: 'CEEBU_TOUBA',
-        amount: Math.round(orderData.amount * 100), // en centimes
-        currency: 'XOF',
-        customer_name: orderData.customerName,
-        customer_email: orderData.email,
-        customer_phone: orderData.phone,
-        order_id: orderData.orderId,
-        sandbox: 0,
-        return_url: `${window.location.origin}/callback.html?orderId=${orderData.orderId}`,
-        cancel_url: window.location.href,
-        notify_url: `${window.location.origin}/api/payment/notify`,
-        description: `Commande Ceebu Touba #${orderData.orderId}`,
-        items: orderData.items
+    const result = await response.json();
+
+    if (result.success) {
+      return {
+        success: true,
+        token: result.token,
+        redirectUrl: result.redirectUrl,
+        orderId: orderData.orderId,
       };
+    } else {
+      throw new Error(result.error);
+    }
+  } catch (error) {
+    console.error('Erreur:', error);
+    return { success: false, error: error.message };
+  }
+
 
       const response = await fetch(`${this.baseUrl}/request-payment`, {
         method: 'POST',
@@ -46,7 +46,7 @@ class PaytechPayment {
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur Paytech: ${response.status} ${response.statusText}`);
+        throw new Error(`Erreur Paytech: ${response.status}`);
       }
 
       const result = await response.json();
@@ -82,7 +82,7 @@ class PaytechPayment {
       success: true,
       token: token,
       redirectUrl: `checkout-test.html?token=${token}`,
-      orderId: paymentData.orderId,
+      orderId: paymentData.metadata.orderId,
       isTestMode: true
     };
   }
@@ -128,7 +128,7 @@ class PaytechPayment {
     const message = JSON.stringify(data) + this.secretKey;
     return btoa(message);
   }
-}
+
 
 let paytech = null;
 
