@@ -93,7 +93,7 @@
     <div class="checkout-col">
       <div class="checkout-card">
         <h2 class="checkout-title">💳 Informations de Livraison</h2>
-        <form id="payment-form" onsubmit="submitPayment(event)">
+        <form id="payment-form" onsubmit="submitCheckout(event)">
           <div class="form-row">
             <div class="form-group"><label>Prénom *</label><input type="text" name="firstName" required placeholder="Votre prénom"></div>
             <div class="form-group"><label>Nom *</label><input type="text" name="lastName" required placeholder="Votre nom"></div>
@@ -120,14 +120,11 @@
           <div class="form-group" style="margin-top: 20px;">
             <label style="display: flex; align-items: center; gap: 8px; text-transform: none; font-size: 13px; font-weight: 500;">
               <input type="checkbox" name="terms" required>
-              J'accepte les conditions d'utilisation et la politique de confidentialité
+              J'accepte les conditions d'utilisation
             </label>
           </div>
           <button type="submit" class="checkout-btn" id="submit-btn">📱 Confirmer avec WhatsApp</button>
         </form>
-        <div style="background: rgba(26,92,46,0.05); border-radius: 10px; padding: 16px; margin-top: 20px; font-size: 12px; color: var(--muted); text-align: center;">
-          💬 Confirmez via WhatsApp puis choisissez votre mode de paiement
-        </div>
       </div>
     </div>
   </div>
@@ -136,105 +133,101 @@
 <script src="cart.js"></script>
 <script src="paytech-integration.js"></script>
 <script>
-  // Initialiser la gestion des commandes
-  initOrderManagement('+221778552550');
+function displayCart() {
+  const container = document.getElementById('cart-items-container');
+  const items = cart.getItems();
 
-  function displayCart() {
-    const container = document.getElementById('cart-items-container');
-    const items = cart.getItems();
-
-    if (items.length === 0) {
-      container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div class="empty-cart-text">Votre panier est vide</div><a href="index.html#produits" class="back-btn">← Ajouter des produits</a></div>`;
-      document.getElementById('submit-btn').disabled = true;
-      updateSummary();
-      return;
-    }
-
-    container.innerHTML = items.map((item, idx) => `
-      <div class="cart-item">
-        <div class="cart-item-img"><img src="${item.image}" alt="${item.name}"></div>
-        <div class="cart-item-info">
-          <div class="cart-item-name">${item.name}</div>
-          <div class="cart-item-weight">${item.weight}</div>
-          <div class="cart-item-qty">Quantité: ${item.quantity}</div>
-        </div>
-        <div style="flex: 1; text-align: right;">
-          <div class="cart-item-price">${(item.price * item.quantity).toLocaleString('fr-SN')} FCFA</div>
-        </div>
-        <button class="cart-item-remove" onclick="removeFromCart(${idx})">✕</button>
-      </div>
-    `).join('');
-
+  if (items.length === 0) {
+    container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div class="empty-cart-text">Votre panier est vide</div><a href="index.html#produits" class="back-btn">← Ajouter des produits</a></div>`;
+    document.getElementById('submit-btn').disabled = true;
     updateSummary();
+    return;
   }
 
-  function removeFromCart(index) {
-    const items = cart.getItems();
-    cart.removeItem(items[index].id, items[index].weight);
-    displayCart();
+  container.innerHTML = items.map((item, idx) => `
+    <div class="cart-item">
+      <div class="cart-item-img"><img src="${item.image}" alt="${item.name}"></div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-weight">${item.weight}</div>
+        <div class="cart-item-qty">Quantité: ${item.quantity}</div>
+      </div>
+      <div style="flex: 1; text-align: right;">
+        <div class="cart-item-price">${(item.price * item.quantity).toLocaleString('fr-SN')} FCFA</div>
+      </div>
+      <button class="cart-item-remove" onclick="removeFromCart(${idx})">✕</button>
+    </div>
+  `).join('');
+
+  updateSummary();
+}
+
+function removeFromCart(index) {
+  const items = cart.getItems();
+  cart.removeItem(items[index].id, items[index].weight);
+  displayCart();
+}
+
+function updateSummary() {
+  const subtotal = cart.getTotal();
+  const delivery = document.querySelector('input[name="delivery"]:checked')?.value || 'standard';
+  const shippingCost = delivery === 'express' ? 2000 : 0;
+  const total = subtotal + shippingCost;
+
+  document.getElementById('subtotal').textContent = subtotal.toLocaleString('fr-SN') + ' FCFA';
+  document.getElementById('shipping').textContent = shippingCost === 0 ? 'Gratuite' : shippingCost.toLocaleString('fr-SN') + ' FCFA';
+  document.getElementById('total').textContent = total.toLocaleString('fr-SN') + ' FCFA';
+}
+
+document.querySelectorAll('input[name="delivery"]').forEach(input => {
+  input.addEventListener('change', updateSummary);
+});
+
+function submitCheckout(e) {
+  e.preventDefault();
+
+  const items = cart.getItems();
+  if (items.length === 0) {
+    alert('Votre panier est vide!');
+    return;
   }
 
-  function updateSummary() {
-    const subtotal = cart.getTotal();
-    const delivery = document.querySelector('input[name="delivery"]:checked')?.value || 'standard';
-    const shippingCost = delivery === 'express' ? 2000 : 0;
-    const total = subtotal + shippingCost;
+  const form = document.getElementById('payment-form');
+  const delivery = document.querySelector('input[name="delivery"]:checked').value;
+  const shippingCost = delivery === 'express' ? 2000 : 0;
+  const subtotal = cart.getTotal();
+  const total = subtotal + shippingCost;
 
-    document.getElementById('subtotal').textContent = subtotal.toLocaleString('fr-SN') + ' FCFA';
-    document.getElementById('shipping').textContent = shippingCost === 0 ? 'Gratuite' : shippingCost.toLocaleString('fr-SN') + ' FCFA';
-    document.getElementById('total').textContent = total.toLocaleString('fr-SN') + ' FCFA';
-  }
+  const orderData = {
+    orderId: generateOrderId(),
+    customerName: `${form.firstName.value} ${form.lastName.value}`,
+    email: form.email.value,
+    phone: form.phone.value,
+    address: form.address.value,
+    message: form.message.value,
+    delivery: delivery,
+    subtotal: subtotal,
+    shippingCost: shippingCost,
+    total: total,
+    items: items.map(item => ({
+      name: item.name,
+      weight: item.weight,
+      quantity: item.quantity,
+      price: item.price
+    }))
+  };
 
-  document.querySelectorAll('input[name="delivery"]').forEach(input => {
-    input.addEventListener('change', updateSummary);
-  });
+  sendToWhatsApp(orderData);
+}
 
-  async function submitPayment(e) {
-    e.preventDefault();
+document.addEventListener('DOMContentLoaded', displayCart);
 
-    const items = cart.getItems();
-    if (items.length === 0) {
-      alert('Votre panier est vide!');
-      return;
-    }
-
-    const form = document.getElementById('payment-form');
-    const delivery = document.querySelector('input[name="delivery"]:checked').value;
-    const shippingCost = delivery === 'express' ? 2000 : 0;
-    const subtotal = cart.getTotal();
-    const total = subtotal + shippingCost;
-
-    const orderData = {
-      orderId: generateOrderId(),
-      customerName: `${form.firstName.value} ${form.lastName.value}`,
-      email: form.email.value,
-      phone: form.phone.value,
-      address: form.address.value,
-      message: form.message.value,
-      delivery: delivery,
-      subtotal: subtotal,
-      shippingCost: shippingCost,
-      total: total,
-      items: items.map(item => ({
-        name: item.name,
-        weight: item.weight,
-        quantity: item.quantity,
-        price: item.price
-      }))
-    };
-
-    // Envoyer à WhatsApp
-    orderManager.sendToWhatsApp(orderData);
-  }
-
-  document.addEventListener('DOMContentLoaded', displayCart);
-
-  function toggleMenu() {
-    document.getElementById('navMobile').classList.toggle('open');
-  }
-  function closeMenu() {
-    document.getElementById('navMobile').classList.remove('open');
-  }
+function toggleMenu() {
+  document.getElementById('navMobile').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('navMobile').classList.remove('open');
+}
 </script>
 </body>
 </html>
