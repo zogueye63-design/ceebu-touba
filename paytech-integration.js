@@ -63,10 +63,8 @@ Date: ${new Date().toLocaleString('fr-SN')}
     let redirectUrl = '';
     
     if (paymentMethod === 'wave') {
-      // Wave ne nécessite pas de redirection directe, mais on peut ouvrir l'app
       redirectUrl = `https://app.wave.com/pay`;
     } else if (paymentMethod === 'om') {
-      // Orange Money
       redirectUrl = `https://www.orangemoney.sn`;
     }
 
@@ -148,6 +146,88 @@ function showPaymentLoader(show) {
   }
 
   loader.style.display = show ? 'flex' : 'none';
+}
+
+function showPaymentOptions(orderData) {
+  let modal = document.getElementById('payment-modal');
+
+  if (!modal) {
+    modal = document.createElement('div');
+    modal.id = 'payment-modal';
+    modal.style.cssText = `
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 11000;
+      backdrop-filter: blur(4px);
+    `;
+    document.body.appendChild(modal);
+  }
+
+  modal.innerHTML = `
+    <div style="background: white; border-radius: 16px; padding: 32px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 500px;">
+      <h2 style="color: var(--text); margin-top: 0; font-size: 1.5rem;">💳 Choisir un mode de paiement</h2>
+      <p style="color: var(--muted); margin-bottom: 24px;">Votre commande a été confirmée. Choisissez votre mode de paiement:</p>
+      
+      <div style="display: flex; gap: 16px; justify-content: center;">
+        <button onclick="proceedPayment('wave', '${JSON.stringify(orderData).replace(/'/g, "\\'").replace(/"/g, '\\"')}')" style="
+          background: #1E88E5;
+          color: white;
+          border: none;
+          padding: 16px 32px;
+          border-radius: 10px;
+          font-weight: 600;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='#1565C0'" onmouseout="this.style.background='#1E88E5'">
+          💰 Wave
+        </button>
+        
+        <button onclick="proceedPayment('om', '${JSON.stringify(orderData).replace(/'/g, "\\'").replace(/"/g, '\\"')}')" style="
+          background: #FF6B35;
+          color: white;
+          border: none;
+          padding: 16px 32px;
+          border-radius: 10px;
+          font-weight: 600;
+          font-size: 16px;
+          cursor: pointer;
+          transition: all 0.2s;
+        " onmouseover="this.style.background='#E55100'" onmouseout="this.style.background='#FF6B35'">
+          🏪 Orange Money
+        </button>
+      </div>
+      
+      <button onclick="closePaymentModal()" style="
+        background: transparent;
+        border: none;
+        color: var(--muted);
+        margin-top: 16px;
+        cursor: pointer;
+        font-size: 14px;
+      ">Fermer</button>
+    </div>
+  `;
+
+  modal.style.display = 'flex';
+}
+
+function closePaymentModal() {
+  const modal = document.getElementById('payment-modal');
+  if (modal) {
+    modal.style.display = 'none';
+  }
+}
+
+function proceedPayment(method, orderDataStr) {
+  const orderData = JSON.parse(orderDataStr);
+  closePaymentModal();
+  orderData.paymentMethod = method;
+  orderManager.redirectToPayment(method, orderData);
 }
 
 function generateOrderId() {

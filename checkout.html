@@ -92,7 +92,7 @@
 
     <div class="checkout-col">
       <div class="checkout-card">
-        <h2 class="checkout-title">💳 Informations de Paiement</h2>
+        <h2 class="checkout-title">💳 Informations de Livraison</h2>
         <form id="payment-form" onsubmit="submitPayment(event)">
           <div class="form-row">
             <div class="form-group"><label>Prénom *</label><input type="text" name="firstName" required placeholder="Votre prénom"></div>
@@ -127,10 +127,10 @@
               J'accepte les conditions d'utilisation et la politique de confidentialité
             </label>
           </div>
-          <button type="submit" class="checkout-btn" id="submit-btn">💳 Procéder au Paiement</button>
+          <button type="submit" class="checkout-btn" id="submit-btn">📱 Confirmer avec WhatsApp</button>
         </form>
         <div style="background: rgba(26,92,46,0.05); border-radius: 10px; padding: 16px; margin-top: 20px; font-size: 12px; color: var(--muted); text-align: center;">
-          🔒 Paiement sécurisé via Paytech | Aucune donnée bancaire stockée
+          💬 Confirmez via WhatsApp puis choisissez votre mode de paiement
         </div>
       </div>
     </div>
@@ -140,11 +140,9 @@
 <script src="cart.js"></script>
 <script src="paytech-integration.js"></script>
 <script>
-  // Initialiser PayTech avec les clés API
-  initPaytech(
-    'f642060474ceb6613c08018ee91d7314bc903471603ba5017f98406583ebcad5',
-    'd5e15a77b7e1cb7791bd099c99da29bf2ff03d095090aba2c55035a51860d7aa'
-  );
+  // Initialiser la gestion des commandes
+  // Remplacez +221771234567 par votre numéro WhatsApp réel
+  initOrderManagement('+221771234567');
 
   function displayCart() {
     const container = document.getElementById('cart-items-container');
@@ -208,11 +206,11 @@
     const form = document.getElementById('payment-form');
     const delivery = document.querySelector('input[name="delivery"]:checked').value;
     const shippingCost = delivery === 'express' ? 2000 : 0;
-    const amount = cart.getTotal() + shippingCost;
+    const subtotal = cart.getTotal();
+    const total = subtotal + shippingCost;
 
     const orderData = {
       orderId: generateOrderId(),
-      customerId: `CUST_${Date.now()}`,
       customerName: `${form.firstName.value} ${form.lastName.value}`,
       email: form.email.value,
       phone: form.phone.value,
@@ -221,7 +219,9 @@
       postal: form.postal.value,
       message: form.message.value,
       delivery: delivery,
-      amount: Math.round(amount),
+      subtotal: subtotal,
+      shippingCost: shippingCost,
+      total: total,
       items: items.map(item => ({
         name: item.name,
         weight: item.weight,
@@ -230,11 +230,18 @@
       }))
     };
 
-    const result = await processPayment(orderData);
-
-    if (result.success && result.isTestMode) {
-      window.location.href = result.redirectUrl;
-    }
+    showPaymentLoader(true);
+    
+    // Envoyer à WhatsApp
+    setTimeout(() => {
+      showPaymentLoader(false);
+      orderManager.sendToWhatsApp(orderData);
+      
+      // Afficher les options de paiement après 1 seconde
+      setTimeout(() => {
+        showPaymentOptions(orderData);
+      }, 1000);
+    }, 800);
   }
 
   document.addEventListener('DOMContentLoaded', displayCart);
