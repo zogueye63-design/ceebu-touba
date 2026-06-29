@@ -1,0 +1,32 @@
+{
+  "name": "ceebu-touba-bot",
+  "version": "2.0.0",
+  "description": "🤖 Bot WhatsApp semi-automatique pour Ceebu Touba",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js",
+    "dev": "nodemon bot.js",
+    "stop": "pkill -f 'node bot.js'"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "automation",
+    "ceebu-touba"
+  ],
+  "author": "Ceebu Touba Team",
+  "license": "MIT",
+  "dependencies": {
+    "whatsapp-web.js": "^1.25.2",
+    "qrcode-terminal": "^0.12.0",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "npm": ">=6.0.0"
+  }
+}
