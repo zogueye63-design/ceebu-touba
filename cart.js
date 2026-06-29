@@ -87,30 +87,50 @@ class ShoppingCart {
 // Instance globale du panier
 const cart = new ShoppingCart();
 
+// Prix actualisés
+const PRICES = {
+  touba: {
+    '5 kg': 3500,
+    '10 kg': 7000,
+    '25 kg': 9500,
+    '50 kg': 19000
+  },
+  walo: {
+    '5 kg': 3200,
+    '10 kg': 6500,
+    '25 kg': 9000,
+    '50 kg': 18000
+  }
+};
+
 // Fonction pour ajouter un produit au panier
 function addToCart(productId) {
   const productType = productId === 'touba' ? 'touba' : 'walo';
   
-  // Récupérer les infos du produit
+  // Récupérer le poids sélectionné
+  const selectedWeight = document.querySelector(`#product-${productType} .weight-btn.active`)?.textContent.trim() || '25 kg';
+  
+  // Récupérer le prix depuis la structure de prix
+  const price = PRICES[productType][selectedWeight] || (productType === 'touba' ? 9500 : 9000);
+  
+  // Récupérer la quantité
+  const quantity = (window.qtys && window.qtys[productType]) || 1;
+
   const products = {
     touba: {
       id: 'touba',
       name: 'Riz Long Premium',
-      weight: document.querySelector(`#product-${productType} .weight-btn.active`)?.textContent.trim() || '25 kg',
-      price: parseInt(
-        document.querySelector(`#prix-${productType}`)?.textContent.match(/\d+/)?.[0] || '12500'
-      ),
-      quantity: (window.qtys && window.qtys[productType]) || 1,
+      weight: selectedWeight,
+      price: price,
+      quantity: quantity,
       image: 'images/result.png'
     },
     walo: {
       id: 'walo',
       name: 'Riz Brisé Premium',
-      weight: document.querySelector(`#product-${productType} .weight-btn.active`)?.textContent.trim() || '25 kg',
-      price: parseInt(
-        document.querySelector(`#prix-${productType}`)?.textContent.match(/\d+/)?.[0] || '10500'
-      ),
-      quantity: (window.qtys && window.qtys[productType]) || 1,
+      weight: selectedWeight,
+      price: price,
+      quantity: quantity,
       image: 'images/result (1).png'
     }
   };
