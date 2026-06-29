@@ -1,0 +1,33 @@
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Modules
+node_modules/
+package-lock.json
+yarn.lock
+
+# Données sensibles
+receipts/
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Logs
+*.log
+logs/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build
+dist/
+build/
